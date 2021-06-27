@@ -1,11 +1,19 @@
 package com.movieShop.domain
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import com.movieShop.dto.MovieDto
 import javax.persistence.Column
+import javax.persistence.Entity
+import javax.persistence.GeneratedValue
+import javax.persistence.Id
+import javax.persistence.JoinColumn
+import javax.persistence.ManyToOne
 
 @Entity
-class Movie(@Column(nullable = false) var name: String? = null,
-            @Column(nullable = false)var description: String? = null,
-            @Id @GeneratedValue var id: Long? = null)
+class Movie(
+        @Id @GeneratedValue var id: Long? = null,
+        @Column(nullable = false) var name: String? = null,
+        @Column(nullable = false) var description: String? = null,
+        @ManyToOne @JoinColumn(name = "PRODUCER_ID") var producer: Producer? = null
+) {
+    fun toDTO() = MovieDto(id, name, description, producer = producer?.toDTO())
+}
