@@ -13,33 +13,30 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
-import reactor.core.publisher.Flux
-import reactor.core.publisher.Mono
 
 @RestController
 @RequestMapping("/producers")
 class ProducerRest(@Autowired private val producerRepository: ProducerRepository) {
 
     @GetMapping
-    fun findAll(): Flux<ProducerDto> {
-        return Flux.fromIterable(
-                producerRepository.findAll().map { producer -> producer.toDTO() }.toMutableList())
+    fun findAll(): List<ProducerDto> {
+        return producerRepository.findAll().map { producer -> producer.toDTO() }.toMutableList()
     }
 
     @GetMapping("/{id}")
-    fun findById(@PathVariable id: Long): Mono<ProducerDto> {
-        return Mono.just(producerRepository.getById(id).toDTO())
+    fun findById(@PathVariable id: Long): ProducerDto {
+        return producerRepository.getById(id).toDTO()
     }
 
     @PostMapping
-    fun create(@RequestBody producer: ProducerDto): Mono<ProducerDto> {
-        return Mono.just(producerRepository.save(producer.fromDTO()).toDTO())
+    fun create(@RequestBody producer: ProducerDto): ProducerDto {
+        return producerRepository.save(producer.fromDTO()).toDTO()
     }
 
     @PutMapping("/{id}")
-    fun upgrade(@PathVariable id: Long, @RequestBody producer: ProducerDto): Mono<ProducerDto> {
+    fun upgrade(@PathVariable id: Long, @RequestBody producer: ProducerDto): ProducerDto {
         producer.id = id
-        return Mono.just(producerRepository.save(producer.fromDTO()).toDTO())
+        return producerRepository.save(producer.fromDTO()).toDTO()
     }
 
     @DeleteMapping("/{id}")
