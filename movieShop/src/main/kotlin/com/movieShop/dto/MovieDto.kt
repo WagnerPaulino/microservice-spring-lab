@@ -11,9 +11,14 @@ class MovieDto(
         @field:NotBlank("Field name can't be blank")
         @field:NotNull("Field name can't be null")
         var name: String? = null,
+        @field:NotEmpty("Field description can't be empty")
+        @field:NotBlank("Field description can't be blank")
+        @field:NotNull("Field description can't be null")
         var description: String? = null,
+        @field:NotNull("Field price can't be null")
+        var price: Double? = null,
         var producer: ProducerDto? = null
 ) {
 
-    fun fromDTO() = Movie(id, name, description, producer = producer?.fromDTO())
+    fun fromDTO() = Movie(id, name, description, price, producer = producer?.fromDTO())
 }
