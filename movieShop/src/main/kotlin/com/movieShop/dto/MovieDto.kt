@@ -7,15 +7,15 @@ import javax.validation.constraints.NotNull
 
 class MovieDto(
         var id: Long? = null,
-        @field:NotEmpty("Field name can't be empty")
-        @field:NotBlank("Field name can't be blank")
-        @field:NotNull("Field name can't be null")
+        @field:NotEmpty(message = "Field name can't be empty")
+        @field:NotBlank(message = "Field name can't be blank")
+        @field:NotNull(message = "Field name can't be null")
         var name: String? = null,
-        @field:NotEmpty("Field description can't be empty")
-        @field:NotBlank("Field description can't be blank")
-        @field:NotNull("Field description can't be null")
+        @field:NotEmpty(message = "Field description can't be empty")
+        @field:NotBlank(message ="Field description can't be blank")
+        @field:NotNull(message = "Field description can't be null")
         var description: String? = null,
-        @field:NotNull("Field price can't be null")
+        @field:NotNull(message = "Field price can't be null")
         var price: Double? = null,
         var producer: ProducerDto? = null
 ) {
