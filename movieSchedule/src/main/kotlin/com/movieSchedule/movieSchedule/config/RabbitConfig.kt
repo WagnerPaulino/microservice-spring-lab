@@ -17,6 +17,8 @@ class RabbitConfig {
 
 	val queueName: String = "movie-schedule"
 
+    val routingKeyBase: String = "movie-shop.#"
+
     @Bean
     fun queue(): Queue {
         return Queue(queueName)
@@ -29,9 +31,9 @@ class RabbitConfig {
 
     @Bean
     fun binding(queue: Queue, exchange: TopicExchange): Binding {
-        return BindingBuilder.bind(queue).to(exchange).with("movie-shop.#")
+        return BindingBuilder.bind(queue).to(exchange).with(routingKeyBase)
     }
-
+    @Bean
     fun container(connectionFactory: ConnectionFactory, listenerAdapter: MessageListenerAdapter): SimpleMessageListenerContainer {
         val container: SimpleMessageListenerContainer = SimpleMessageListenerContainer()
         container.connectionFactory = connectionFactory
