@@ -1,6 +1,8 @@
 package com.movieShop.rest
 
 import com.movieShop.dto.MovieDto
+import com.movieShop.domain.MovieOrderModel
+import com.movieShop.config.RabbitConfig
 import com.movieShop.repository.MovieRepository
 import javax.validation.Valid
 import org.springframework.beans.factory.annotation.Autowired
@@ -15,10 +17,13 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.amqp.rabbit.core.RabbitTemplate
+import com.google.gson.Gson;
+import java.time.LocalDate
 
 @RestController
 @RequestMapping("/movies")
-class MovieRest(@Autowired private val movieRepository: MovieRepository) {
+class MovieRest(@Autowired private val movieRepository: MovieRepository, @Autowired private val rabbitTemplate: RabbitTemplate) {
 
     @GetMapping
     fun findAll(): List<MovieDto> {
@@ -45,5 +50,15 @@ class MovieRest(@Autowired private val movieRepository: MovieRepository) {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun delete(@PathVariable id: Long) {
         movieRepository.deleteById(id)
+    }
+
+    @PostMapping("/order/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun orderMovie(@PathVariable id: Long) {
+        val rabbitConfig = RabbitConfig()
+        val movie = movieRepository.getById(id)
+        val movieOrder = MovieOrderModel(LocalDate.now(), movie.id)
+        val gson = Gson()
+        rabbitTemplate.convertAndSend(rabbitConfig.topicExchangeName, rabbitConfig.routingKeyBase+"order",gson.toJson(movieOrder))
     }
 }
