@@ -10,5 +10,6 @@ import javax.persistence.Entity
 class MovieOrder(
     @Id @GeneratedValue var id: Long? = null,
     @Column var orderData: LocalDate? = null,
+    @Column var deliveryDate: LocalDate? = null,
     @Column var movieId: Long? = null
 )

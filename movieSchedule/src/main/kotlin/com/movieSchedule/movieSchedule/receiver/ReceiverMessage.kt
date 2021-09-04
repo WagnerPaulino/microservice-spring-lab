@@ -15,6 +15,7 @@ public class ReceiverMessage(@Autowired private val movieOrderRepository: MovieO
         val gson = Gson()
         val movie = gson.fromJson(movieOrder, MovieOrder().javaClass)
         movieOrderRepository.findOne(movieSpec.findByMovieId(movie.movieId)).ifPresent{movieOrderSaved -> movie.id = movieOrderSaved.id}
+        movie.deliveryDate = movie.orderData?.plusDays(3)
         movieOrderRepository.save(movie)
     }
 }
