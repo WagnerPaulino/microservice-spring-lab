@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.amqp.rabbit.core.RabbitTemplate
-import com.google.gson.Gson;
+import com.google.gson.Gson
 import java.time.LocalDate
 
 @RestController
