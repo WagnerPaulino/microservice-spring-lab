@@ -6,6 +6,7 @@ import com.movieShop.config.RabbitConfig
 import com.movieShop.repository.MovieRepository
 import com.movieShop.service.MovieService
 import javax.validation.Valid
+import javax.persistence.EntityNotFoundException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.validation.annotation.Validated
@@ -37,13 +38,14 @@ class MovieRest(@Autowired private val movieRepository: MovieRepository, @Autowi
 
     @PostMapping
     fun create(@RequestBody @Valid movie: MovieDto): MovieDto {
-        return movieRepository.save(movie.fromDTO()).toDTO()
+        return movieService.save(movie.fromDTO()).toDTO()
     }
 
     @PutMapping("/{id}")
-    fun upgrade(@PathVariable id: Long, @RequestBody @Valid movie: MovieDto): MovieDto {
+    fun update(@PathVariable id: Long, @RequestBody @Valid movie: MovieDto): MovieDto {
+        movieRepository.findById(id).orElseThrow{ throw EntityNotFoundException("Movie with id $id was not found!") }
         movie.id = id
-        return movieRepository.save(movie.fromDTO()).toDTO()
+        return movieService.save(movie.fromDTO()).toDTO()
     }
 
     @DeleteMapping("/{id}")

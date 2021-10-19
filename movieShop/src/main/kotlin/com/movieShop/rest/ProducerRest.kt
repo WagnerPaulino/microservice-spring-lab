@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
+import javax.persistence.EntityNotFoundException
 
 @RestController
 @RequestMapping("/producers")
@@ -34,7 +35,8 @@ class ProducerRest(@Autowired private val producerRepository: ProducerRepository
     }
 
     @PutMapping("/{id}")
-    fun upgrade(@PathVariable id: Long, @RequestBody producer: ProducerDto): ProducerDto {
+    fun update(@PathVariable id: Long, @RequestBody producer: ProducerDto): ProducerDto {
+        producerRepository.findById(id).orElseThrow{ throw EntityNotFoundException("Producer with id $id was not found!") }
         producer.id = id
         return producerRepository.save(producer.fromDTO()).toDTO()
     }

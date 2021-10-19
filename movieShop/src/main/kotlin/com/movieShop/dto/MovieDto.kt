@@ -17,6 +17,7 @@ class MovieDto(
         var description: String? = null,
         @field:NotNull(message = "Field price can't be null")
         var price: Double? = null,
+        @field:NotNull(message = "Field producer can't be null")
         var producer: ProducerDto? = null
 ) {
 
