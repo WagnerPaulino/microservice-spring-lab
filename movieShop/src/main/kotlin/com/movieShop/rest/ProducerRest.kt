@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
-import javax.persistence.EntityNotFoundException
+import org.springframework.web.server.ResponseStatusException
 
 @RestController
 @RequestMapping("/producers")
@@ -21,7 +21,7 @@ class ProducerRest(@Autowired private val producerRepository: ProducerRepository
 
     @GetMapping
     fun findAll(): List<ProducerDto> {
-        return producerRepository.findAll().map { producer -> producer.toDTO() }.toMutableList()
+        return producerRepository.findAll().map { producer -> producer.toDTO() }
     }
 
     @GetMapping("/{id}")
@@ -36,7 +36,7 @@ class ProducerRest(@Autowired private val producerRepository: ProducerRepository
 
     @PutMapping("/{id}")
     fun update(@PathVariable id: Long, @RequestBody producer: ProducerDto): ProducerDto {
-        producerRepository.findById(id).orElseThrow{ throw EntityNotFoundException("Producer with id $id was not found!") }
+        producerRepository.findById(id).orElseThrow{ throw ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Producer with id $id was not found!") }
         producer.id = id
         return producerRepository.save(producer.fromDTO()).toDTO()
     }

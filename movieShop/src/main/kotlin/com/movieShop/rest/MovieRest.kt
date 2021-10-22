@@ -6,7 +6,6 @@ import com.movieShop.config.RabbitConfig
 import com.movieShop.repository.MovieRepository
 import com.movieShop.service.MovieService
 import javax.validation.Valid
-import javax.persistence.EntityNotFoundException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.validation.annotation.Validated
@@ -19,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.server.ResponseStatusException
 import org.springframework.amqp.rabbit.core.RabbitTemplate
 import java.time.LocalDate
 
@@ -28,7 +28,7 @@ class MovieRest(@Autowired private val movieRepository: MovieRepository, @Autowi
 
     @GetMapping
     fun findAll(): List<MovieDto> {
-        return movieRepository.findAll().map { movie -> movie.toDTO() }.toMutableList()
+        return movieRepository.findAll().map { movie -> movie.toDTO() }
     }
 
     @GetMapping("/{id}")
@@ -43,7 +43,7 @@ class MovieRest(@Autowired private val movieRepository: MovieRepository, @Autowi
 
     @PutMapping("/{id}")
     fun update(@PathVariable id: Long, @RequestBody @Valid movie: MovieDto): MovieDto {
-        movieRepository.findById(id).orElseThrow{ throw EntityNotFoundException("Movie with id $id was not found!") }
+        movieRepository.findById(id).orElseThrow{ throw ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Movie with id $id was not found!") }
         movie.id = id
         return movieService.save(movie.fromDTO()).toDTO()
     }

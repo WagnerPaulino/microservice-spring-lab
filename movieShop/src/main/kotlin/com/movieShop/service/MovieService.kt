@@ -10,7 +10,8 @@ import com.movieShop.domain.MovieOrderModel
 import com.movieShop.domain.Movie
 import java.time.LocalDate
 import com.google.gson.Gson
-import javax.persistence.EntityNotFoundException
+import org.springframework.web.server.ResponseStatusException
+import org.springframework.http.HttpStatus
 
 @Service
 class MovieService(@Autowired private val movieRepository: MovieRepository,
@@ -19,18 +20,15 @@ class MovieService(@Autowired private val movieRepository: MovieRepository,
 
     fun orderMovie(id: Long) {
         val rabbitConfig = RabbitConfig()
-        val movie = movieRepository.findById(id).orElseThrow{ throw EntityNotFoundException("Movie with id $id was not found!") }
+        val movie = movieRepository.findById(id).orElseThrow{ throw ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Movie with id $id was not found!") }
         val movieOrder = MovieOrderModel(LocalDate.now(), movie.id)
         val gson = Gson()
         rabbitTemplate.convertAndSend(rabbitConfig.topicExchangeName, rabbitConfig.routingKeyBase+"order",gson.toJson(movieOrder))
     }
 
     fun save(movie: Movie): Movie {
-        val producerValid = producerRepository.findById(movie.producer?.id!!).isPresent()
-        if(producerValid) {
-            return movieRepository.save(movie)
-        } else {
-            throw EntityNotFoundException("Producer with id ${movie.producer?.id} was not found!")
-        }
+        producerRepository.findById(movie.producer?.id!!)
+            .orElseThrow{ throw ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Producer with id ${movie.producer?.id} was not found!") }
+        return movieRepository.save(movie)
     }
 }
