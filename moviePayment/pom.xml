@@ -8,17 +8,17 @@
 		<version>2.6.1</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.movieSchedule</groupId>
-	<artifactId>movieSchedule</artifactId>
+	<groupId>com.moviePayment</groupId>
+	<artifactId>moviePayment</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>movieSchedule</name>
-	<description>microservice Spring Lab</description>
+	<name>moviePayment</name>
+	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>11</java.version>
 		<kotlin.version>1.6.0</kotlin.version>
 		<testcontainers.version>1.16.0</testcontainers.version>
 	</properties>
-		<dependencies>
+	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>

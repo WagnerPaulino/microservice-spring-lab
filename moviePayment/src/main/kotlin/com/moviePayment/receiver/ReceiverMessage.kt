@@ -1,11 +1,11 @@
-package com.movieSchedule.movieSchedule.receiver
+package com.moviePayment.receiver
 
 import org.springframework.stereotype.Component
 import org.springframework.beans.factory.annotation.Autowired
 import com.google.gson.Gson
-import com.movieSchedule.movieSchedule.domain.MovieOrder
-import com.movieSchedule.movieSchedule.repository.MovieOrderRepository
-import com.movieSchedule.movieSchedule.specification.MovieOrderSpecification
+import com.moviePayment.domain.MovieOrder
+import com.moviePayment.repository.MovieOrderRepository
+import com.moviePayment.specification.MovieOrderSpecification
 
 @Component
 class ReceiverMessage(@Autowired private val movieOrderRepository: MovieOrderRepository) {
@@ -15,7 +15,6 @@ class ReceiverMessage(@Autowired private val movieOrderRepository: MovieOrderRep
         val gson = Gson()
         val movie = gson.fromJson(movieOrder, MovieOrder().javaClass)
         movieOrderRepository.findOne(movieSpec.findByMovieId(movie.movieId)).ifPresent{movieOrderSaved -> movie.id = movieOrderSaved.id}
-        movie.deliveryDate = movie.orderData?.plusDays(3)
         movieOrderRepository.save(movie)
     }
 }
