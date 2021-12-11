@@ -47,7 +47,7 @@ class MoviePaymentApplicationTests(@Autowired val moviePaymentRepository: MovieP
 	  }
 
 	fun getMoviePayment(): MoviePayment {
-		return MoviePayment(1L, 5.0, 1L, false)
+		return MoviePayment(1L, 5.0, 2L, false)
 	}
 
 	@Test
