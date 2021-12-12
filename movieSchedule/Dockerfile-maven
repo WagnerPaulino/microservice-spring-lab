@@ -1,5 +1,5 @@
 FROM maven:3.8-adoptopenjdk-11
-WORKDIR /quotation-management
+WORKDIR /movieSchedule
 COPY . .
 RUN mvn clean install -Dmaven.test.skip=true
 EXPOSE 8081

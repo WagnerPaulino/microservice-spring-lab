@@ -1,0 +1,5 @@
+FROM maven:3.8-adoptopenjdk-11
+WORKDIR /moviePayment
+COPY target/moviePayment-0.0.1-SNAPSHOT.jar moviePayment.jar
+EXPOSE 8082
+ENTRYPOINT ["java","-jar", "moviePayment.jar"]

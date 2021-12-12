@@ -1,5 +1,5 @@
 FROM maven:3.8-adoptopenjdk-11
-WORKDIR /quotation-management
+WORKDIR /movieSchedule
 COPY target/movieSchedule-0.0.1-SNAPSHOT.jar movieSchedule.jar
 EXPOSE 8081
 ENTRYPOINT ["java","-jar", "movieSchedule.jar"]
