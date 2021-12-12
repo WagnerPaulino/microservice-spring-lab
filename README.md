@@ -1,5 +1,13 @@
 # Microservice-spring-lab
 
+Project to manage movie purchases based on microservices architecture using the following technologies
+
+- Spring boot
+- Testcontainers
+- Rabbitmq
+- Postgres database
+- Swagger
+
 * How to run postgres container
 
 ```bash
