@@ -3,6 +3,7 @@
 Project to manage movie purchases based on microservices architecture using the following technologies
 
 - Spring boot
+- Spring cloud netflix eureka server
 - Testcontainers
 - Rabbitmq
 - Postgres database
