@@ -26,7 +26,7 @@ class UserAuthRest(
         return userAuthRepository.getById(id)
     }
 
-    @GetMapping("/{username}")
+    @GetMapping("/name/{username}")
     fun getUserByUsername(@PathVariable username: String): UserAuth {
         return userAuthService.getUser(username)
     }
