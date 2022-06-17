@@ -8,12 +8,14 @@ import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.core.userdetails.UsernameNotFoundException
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.web.server.ResponseStatusException
 
 @Service
 class UserAuthService(
         @Autowired private val userAuthRepository: UserAuthRepository,
+        @Autowired private val passwordEnconder: PasswordEncoder
 ) : UserDetailsService {
 
     override fun loadUserByUsername(username: String): UserDetails {
@@ -27,6 +29,7 @@ class UserAuthService(
     }
 
     fun save(user: UserAuth): UserAuth {
+        user.password = passwordEnconder.encode(user.password)
         return userAuthRepository.save(user)
     }
 

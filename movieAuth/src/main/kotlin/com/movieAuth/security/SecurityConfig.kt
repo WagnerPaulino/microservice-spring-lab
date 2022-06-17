@@ -4,6 +4,7 @@ import com.movieAuth.filter.CustomAuthenticationFilter
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.HttpMethod
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -27,7 +28,9 @@ class SecurityConfig(
     override fun configure(http: HttpSecurity) {
         http.csrf().disable()
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        http.authorizeRequests().anyRequest().permitAll()
+        http.authorizeRequests().antMatchers(HttpMethod.POST, "/users/**").permitAll()
+        http.authorizeRequests().antMatchers(HttpMethod.GET, "/users/**").permitAll()
+        http.authorizeRequests().antMatchers(HttpMethod.PUT, "/users/**").authenticated()
         http.addFilter(CustomAuthenticationFilter(authenticationManagerBean()))
     }
 
