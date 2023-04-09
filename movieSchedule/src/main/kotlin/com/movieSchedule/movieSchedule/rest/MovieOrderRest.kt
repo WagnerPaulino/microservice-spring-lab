@@ -18,7 +18,7 @@ class MovieOrderRest(@Autowired val movieOrderRepository: MovieOrderRepository) 
 
     @GetMapping("/{id}")
     fun findById(id: Long): MovieOrder {
-        return movieOrderRepository.getById(id)
+        return movieOrderRepository.getReferenceById(id)
     }
 
 }

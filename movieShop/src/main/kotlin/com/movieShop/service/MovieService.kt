@@ -1,7 +1,9 @@
 package com.movieShop.service
 
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.movieShop.config.RabbitConfig
+import com.movieShop.converters.LocalDateAdapter
 import com.movieShop.domain.Movie
 import com.movieShop.domain.MovieOrderModel
 import com.movieShop.domain.MoviePaymentModel
@@ -31,7 +33,9 @@ class MovieService(
                                         )
                                 }
                 val movieOrder = MovieOrderModel(LocalDate.now(), movie.id)
-                val gson = Gson()
+                val gson = GsonBuilder()
+                    .registerTypeAdapter(LocalDate::class.java, LocalDateAdapter())
+                    .create()
                 rabbitTemplate.convertAndSend(
                                 rabbitConfig.topicExchangeNameSchedule,
                                 rabbitConfig.routingKeyBase + "order",

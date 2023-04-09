@@ -26,7 +26,7 @@ class ProducerRest(@Autowired private val producerRepository: ProducerRepository
 
     @GetMapping("/{id}")
     fun findById(@PathVariable id: Long): ProducerDto {
-        return producerRepository.getById(id).toDTO()
+        return producerRepository.getReferenceById(id).toDTO()
     }
 
     @PostMapping

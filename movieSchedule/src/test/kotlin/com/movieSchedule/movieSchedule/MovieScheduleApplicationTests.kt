@@ -20,7 +20,6 @@ import org.hamcrest.Matchers.equalTo
 import com.movieSchedule.movieSchedule.repository.MovieOrderRepository
 import com.movieSchedule.movieSchedule.domain.MovieOrder
 import java.time.LocalDate
-import springfox.documentation.service.MediaTypes
 
 @Testcontainers
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)

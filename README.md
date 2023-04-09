@@ -18,6 +18,6 @@ docker run -p 5432:5432 --network host -e POSTGRES_USER="admin" -e POSTGRES_PASS
 * How to run rabbitmq container
 
 ```bash
-$ docker build -t rabbit rabbit-image/
+$ docker build -t rabbit rabbitmq-messaging-lab-rabbitmq-image/
 $ docker run -p 5672:5672 -p 15672:15672 --name rabbit rabbit
 ```

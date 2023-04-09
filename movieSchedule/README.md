@@ -15,4 +15,4 @@ Running the container
 $ docker run -p 8081:8081 --network <yourNetwork> --name movie-schedule movie-schedule
 ```
 
-* See the swagger documentation here `http://localhost:8081/swagger-ui/#/`
+* See the swagger documentation here `http://localhost:8081/swagger-ui/index.html`

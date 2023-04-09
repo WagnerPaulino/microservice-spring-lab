@@ -1,9 +1,9 @@
 package com.moviePayment.domain
 
-import javax.persistence.GeneratedValue
-import javax.persistence.Id
-import javax.persistence.Column
-import javax.persistence.Entity
+import jakarta.persistence.Column
+import jakarta.persistence.Entity
+import jakarta.persistence.GeneratedValue
+import jakarta.persistence.Id
 
 @Entity class MoviePayment(
     @Id @GeneratedValue var id: Long? = null,

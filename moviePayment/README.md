@@ -15,4 +15,4 @@ Running the container
 $ docker run -p 8082:8082 --network <yourNetwork> --name movie-payment movie-payment
 ```
 
-* See the swagger documentation here `http://localhost:8082/swagger-ui/#/`
+* See the swagger documentation here `http://localhost:8082/swagger-ui/index.html`

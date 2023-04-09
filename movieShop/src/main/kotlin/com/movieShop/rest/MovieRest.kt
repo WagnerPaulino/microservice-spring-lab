@@ -1,14 +1,11 @@
 package com.movieShop.rest
 
 import com.movieShop.dto.MovieDto
-import com.movieShop.domain.MovieOrderModel
-import com.movieShop.config.RabbitConfig
 import com.movieShop.repository.MovieRepository
 import com.movieShop.service.MovieService
-import javax.validation.Valid
+import jakarta.validation.Valid
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
-import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -19,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.server.ResponseStatusException
-import org.springframework.amqp.rabbit.core.RabbitTemplate
-import java.time.LocalDate
 
 @RestController
 @RequestMapping("/movies")
@@ -33,7 +28,7 @@ class MovieRest(@Autowired private val movieRepository: MovieRepository, @Autowi
 
     @GetMapping("/{id}")
     fun findById(@PathVariable id: Long): MovieDto {
-        return movieRepository.getById(id).toDTO()
+        return movieRepository.getReferenceById(id).toDTO()
     }
 
     @PostMapping
