@@ -9,8 +9,6 @@ class RabbitConfig {
 
     val topicExchangeNamePayment: String = "movie-payment-exchange"
 
-	val queueName: String = "movie-schedule"
-
     val routingKeyBase: String = "movie-shop."
 
 }
