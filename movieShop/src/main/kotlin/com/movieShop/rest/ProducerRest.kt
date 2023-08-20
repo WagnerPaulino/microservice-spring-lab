@@ -2,6 +2,7 @@ package com.movieShop.rest
 
 import com.movieShop.dto.ProducerDto
 import com.movieShop.repository.ProducerRepository
+import jakarta.validation.Valid
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -30,12 +31,12 @@ class ProducerRest(@Autowired private val producerRepository: ProducerRepository
     }
 
     @PostMapping
-    fun create(@RequestBody producer: ProducerDto): ProducerDto {
+    fun create(@RequestBody @Valid producer: ProducerDto): ProducerDto {
         return producerRepository.save(producer.fromDTO()).toDTO()
     }
 
     @PutMapping("/{id}")
-    fun update(@PathVariable id: Long, @RequestBody producer: ProducerDto): ProducerDto {
+    fun update(@PathVariable id: Long, @RequestBody @Valid producer: ProducerDto): ProducerDto {
         producerRepository.findById(id).orElseThrow{ throw ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Producer with id $id was not found!") }
         producer.id = id
         return producerRepository.save(producer.fromDTO()).toDTO()
