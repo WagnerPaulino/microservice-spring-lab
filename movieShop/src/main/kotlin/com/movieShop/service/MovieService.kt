@@ -1,6 +1,5 @@
 package com.movieShop.service
 
-import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.movieShop.config.RabbitConfig
 import com.movieShop.converters.LocalDateAdapter
@@ -11,16 +10,15 @@ import com.movieShop.repository.MovieRepository
 import com.movieShop.repository.ProducerRepository
 import java.time.LocalDate
 import org.springframework.amqp.rabbit.core.RabbitTemplate
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.web.server.ResponseStatusException
 
 @Service
 class MovieService(
-                @Autowired private val movieRepository: MovieRepository,
-                @Autowired private val producerRepository: ProducerRepository,
-                @Autowired private val rabbitTemplate: RabbitTemplate
+                private val movieRepository: MovieRepository,
+                private val producerRepository: ProducerRepository,
+                private val rabbitTemplate: RabbitTemplate
 ) {
 
         fun orderMovie(id: Long) {

@@ -3,7 +3,6 @@ package com.movieShop.rest
 import com.movieShop.dto.ProducerDto
 import com.movieShop.repository.ProducerRepository
 import jakarta.validation.Valid
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -18,7 +17,7 @@ import org.springframework.web.server.ResponseStatusException
 
 @RestController
 @RequestMapping("/producers")
-class ProducerRest(@Autowired private val producerRepository: ProducerRepository) {
+class ProducerRest(private val producerRepository: ProducerRepository) {
 
     @GetMapping
     fun findAll(): List<ProducerDto> {

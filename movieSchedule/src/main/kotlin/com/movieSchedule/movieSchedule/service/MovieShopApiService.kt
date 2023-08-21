@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service
 import com.movieSchedule.movieSchedule.model.MovieShopModel
 
 @Service
-class MovieShopApiService(@Autowired val restTemplate: RestTemplate, @Autowired val env: Environment) {
+class MovieShopApiService(val restTemplate: RestTemplate, val env: Environment) {
 
     fun getBaseUrl(): String? {
         return env.getProperty("movie-shop-url")

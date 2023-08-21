@@ -4,7 +4,6 @@ import com.movieShop.dto.MovieDto
 import com.movieShop.repository.MovieRepository
 import com.movieShop.service.MovieService
 import jakarta.validation.Valid
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -19,7 +18,7 @@ import org.springframework.web.server.ResponseStatusException
 
 @RestController
 @RequestMapping("/movies")
-class MovieRest(@Autowired private val movieRepository: MovieRepository, @Autowired private val movieService: MovieService) {
+class MovieRest(private val movieRepository: MovieRepository, private val movieService: MovieService) {
 
     @GetMapping
     fun findAll(): List<MovieDto> {

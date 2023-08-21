@@ -12,7 +12,7 @@ import com.movieSchedule.movieSchedule.specification.MovieOrderSpecification
 import java.time.LocalDate
 
 @Component
-class ReceiverMessage(@Autowired private val movieOrderRepository: MovieOrderRepository, @Autowired private val movieShopApiService: MovieShopApiService) {
+class ReceiverMessage(private val movieOrderRepository: MovieOrderRepository, private val movieShopApiService: MovieShopApiService) {
 
     fun receiveMessage(movieOrder: String) {
         val movieSpec = MovieOrderSpecification()

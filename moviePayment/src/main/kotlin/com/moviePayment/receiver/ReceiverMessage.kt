@@ -11,9 +11,9 @@ import org.springframework.stereotype.Component
 
 @Component
 class ReceiverMessage(
-        @Autowired private val movieOrderRepository: MoviePaymentRepository,
-        @Autowired private val moviePaymentService: MoviePaymentService,
-        @Autowired private val movieShopApiService: MovieShopApiService
+        private val movieOrderRepository: MoviePaymentRepository,
+        private val moviePaymentService: MoviePaymentService,
+        private val movieShopApiService: MovieShopApiService
 ) {
 
     fun receiveMessage(movieOrder: String) {

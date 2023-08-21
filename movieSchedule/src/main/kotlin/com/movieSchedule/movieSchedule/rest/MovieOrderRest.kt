@@ -9,7 +9,7 @@ import com.movieSchedule.movieSchedule.domain.MovieOrder
 
 @RestController
 @RequestMapping("/movie-orders")
-class MovieOrderRest(@Autowired val movieOrderRepository: MovieOrderRepository) {
+class MovieOrderRest(val movieOrderRepository: MovieOrderRepository) {
 
     @GetMapping
     fun findAll(): List<MovieOrder>  {

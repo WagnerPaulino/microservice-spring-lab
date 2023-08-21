@@ -13,7 +13,7 @@ import org.springframework.web.server.ResponseStatusException
 
 @RestController
 @RequestMapping("/movie-payments")
-class MovieOrderRest(@Autowired val movieOrderRepository: MoviePaymentRepository) {
+class MovieOrderRest(val movieOrderRepository: MoviePaymentRepository) {
 
     @GetMapping("/{id}")
     fun findById(@PathVariable id: Long): MoviePayment {
