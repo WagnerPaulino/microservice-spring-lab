@@ -2,7 +2,6 @@ package com.moviePayment
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.test.context.DynamicPropertySource
 import org.springframework.test.context.DynamicPropertyRegistry
 import org.springframework.test.web.servlet.MockMvc
@@ -20,10 +19,13 @@ import org.testcontainers.containers.PostgreSQLContainer
 import com.moviePayment.repository.MoviePaymentRepository
 import com.moviePayment.service.MoviePaymentService
 import com.moviePayment.domain.MoviePayment
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc
+import org.springframework.transaction.annotation.Transactional
 
 @Testcontainers
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
+@Transactional
 class MoviePaymentApplicationTests(@Autowired val moviePaymentRepository: MoviePaymentRepository,
 	@Autowired val moviePaymentService: MoviePaymentService,
 	@Autowired val mockMvc: MockMvc) {
@@ -47,7 +49,7 @@ class MoviePaymentApplicationTests(@Autowired val moviePaymentRepository: MovieP
 	  }
 
 	fun getMoviePayment(): MoviePayment {
-		return MoviePayment(1L, 5.0, 2L, false)
+		return MoviePayment(null, 5.0, 2L, false)
 	}
 
 	@Test

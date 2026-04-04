@@ -2,7 +2,6 @@ package com.movieSchedule.movieSchedule
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.test.context.DynamicPropertySource
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
@@ -19,6 +18,7 @@ import org.hamcrest.Matchers.hasSize
 import org.hamcrest.Matchers.equalTo
 import com.movieSchedule.movieSchedule.repository.MovieOrderRepository
 import com.movieSchedule.movieSchedule.domain.MovieOrder
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc
 import java.time.LocalDate
 
 @Testcontainers
@@ -46,7 +46,7 @@ class MovieScheduleApplicationTests(@Autowired val movieOrderRepository: MovieOr
 
 	@Test
 	fun shouldSaveAndReturnAllMovieOrders() {
-		movieOrderRepository.save(MovieOrder(1,LocalDate.now(),LocalDate.now().plusDays(3),1))
+		movieOrderRepository.save(MovieOrder(null,LocalDate.now(),LocalDate.now().plusDays(3),1))
 		mockMvc.perform(get("/movie-orders")
 			.accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().is2xxSuccessful())

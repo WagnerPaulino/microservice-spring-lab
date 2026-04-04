@@ -2,7 +2,7 @@ package com.movieShop
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc
 import org.springframework.test.context.DynamicPropertySource
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
@@ -21,17 +21,18 @@ import org.springframework.http.MediaType
 import com.google.gson.Gson
 import com.movieShop.dto.ProducerDto
 import com.movieShop.dto.MovieDto
+import org.springframework.transaction.annotation.Transactional
 
 @Testcontainers
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
+@Transactional
 class MovieShopApplicationTests(@Autowired val mockMvc: MockMvc) {
 
 	val producerPath = "/producers"
 	val moviePath = "/movies"
 
 	companion object {
- 
 		@Container
 		val container = PostgreSQLContainer<Nothing>("postgres:9.6.23").apply {
 		  withDatabaseName("test")
@@ -51,11 +52,15 @@ class MovieShopApplicationTests(@Autowired val mockMvc: MockMvc) {
 	@Test
 	fun shouldSaveProducerAndMovie() {
 		val gson = Gson()
-		val p = ProducerDto(1,"testeName")
-		val m = MovieDto(1,"testeName","testeDesc",120.1,p)
-		mockMvc.perform(post(producerPath).contentType(MediaType.APPLICATION_JSON).content(gson.toJson(p)))
+		val p = ProducerDto(null,"testeName")
+		val m = MovieDto(null,"testeName","testeDesc",120.1,p)
+		val resultProducer = mockMvc.perform(post(producerPath).contentType(MediaType.APPLICATION_JSON).content(gson.toJson(p)))
 			.andExpect(status().is2xxSuccessful())
 			.andExpect(jsonPath("$.name", equalTo("testeName")))
+			.andReturn()
+		val responseString = resultProducer.response.contentAsString
+		val savedProducer = gson.fromJson(responseString, ProducerDto::class.java)
+		p.id = savedProducer.id
 		mockMvc.perform(post(moviePath).contentType(MediaType.APPLICATION_JSON).content(gson.toJson(m)))
 			.andExpect(status().is2xxSuccessful())
 			.andExpect(jsonPath("$.name", equalTo("testeName")))
@@ -68,10 +73,14 @@ class MovieShopApplicationTests(@Autowired val mockMvc: MockMvc) {
 	@Test
 	fun shouldReturnErrorWhenUpdateMovieNonexistent() {
 		val gson = Gson()
-		val p = ProducerDto(2,"testeName1")
-		val m = MovieDto(2,"testeName1","testeDesc1",120.1,p)
-		mockMvc.perform(post(producerPath).contentType(MediaType.APPLICATION_JSON).content(gson.toJson(p)))
+		val p = ProducerDto(null,"testeName1")
+		val m = MovieDto(1,"testeName1","testeDesc1",120.1,p)
+		val resultProducer = mockMvc.perform(post(producerPath).contentType(MediaType.APPLICATION_JSON).content(gson.toJson(p)))
 			.andExpect(status().is2xxSuccessful())
+			.andReturn()
+		val responseString = resultProducer.response.contentAsString
+		val savedProducer = gson.fromJson(responseString, ProducerDto::class.java)
+		p.id = savedProducer.id
 		mockMvc.perform(put("$moviePath/${m.id}").contentType(MediaType.APPLICATION_JSON).content(gson.toJson(m)))
 			.andExpect(status().is5xxServerError())
 	}
